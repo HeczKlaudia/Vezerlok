@@ -5,8 +5,12 @@
  */
 package nezet;
 
+import java.awt.Component;
+import java.awt.event.KeyEvent;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 import javax.swing.ListModel;
 
 /**
@@ -20,6 +24,7 @@ public class Vezerlok extends javax.swing.JFrame {
      */
     public Vezerlok() {
         initComponents();
+//        btnComboba.setEnabled(false);
     }
 
     /**
@@ -38,13 +43,13 @@ public class Vezerlok extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jSpinner1 = new javax.swing.JSpinner();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        btnFejlec = new javax.swing.JToggleButton();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton1 = new javax.swing.JRadioButton();
+        rdbFerfi = new javax.swing.JRadioButton();
+        rdbNo = new javax.swing.JRadioButton();
         jCheckBox1 = new javax.swing.JCheckBox();
-        jRadioButton3 = new javax.swing.JRadioButton();
+        rdbNemAdomMeg = new javax.swing.JRadioButton();
         btnJelszotMutat = new javax.swing.JButton();
         pswJelszo = new javax.swing.JPasswordField();
         txtJelszo = new javax.swing.JTextField();
@@ -67,7 +72,7 @@ public class Vezerlok extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        menuKilep = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -77,34 +82,54 @@ public class Vezerlok extends javax.swing.JFrame {
         jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
         jRadioButtonMenuItem2 = new javax.swing.JRadioButtonMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Vezérlők használata");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jTabbedPane1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jTabbedPane1.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jTabbedPane1ComponentShown(evt);
+            }
+        });
 
         jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- szak választó --", "Szoftverfejlesztő", "Rendszergazda", "Grafikus" }));
+        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox1ItemStateChanged(evt);
+            }
+        });
 
         jSpinner1.setModel(new javax.swing.SpinnerNumberModel(1, 1, 5, 1));
 
-        jToggleButton1.setText("jToggleButton1");
+        btnFejlec.setText("jToggleButton1");
+        btnFejlec.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFejlecActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("darab:");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Beállítások"));
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Férfi");
+        buttonGroup1.add(rdbFerfi);
+        rdbFerfi.setText("Férfi");
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("Nő");
+        buttonGroup1.add(rdbNo);
+        rdbNo.setText("Nő");
 
         jCheckBox1.setSelected(true);
         jCheckBox1.setText("Hírlevél");
 
-        buttonGroup1.add(jRadioButton3);
-        jRadioButton3.setText("Nem adom meg");
+        buttonGroup1.add(rdbNemAdomMeg);
+        rdbNemAdomMeg.setText("Nem adom meg");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -114,9 +139,9 @@ public class Vezerlok extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jCheckBox1)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2)
-                    .addComponent(jRadioButton3))
+                    .addComponent(rdbNo)
+                    .addComponent(rdbFerfi)
+                    .addComponent(rdbNemAdomMeg))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -125,11 +150,11 @@ public class Vezerlok extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jCheckBox1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton1)
+                .addComponent(rdbNo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton2)
+                .addComponent(rdbFerfi)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton3)
+                .addComponent(rdbNemAdomMeg)
                 .addContainerGap())
         );
 
@@ -162,7 +187,7 @@ public class Vezerlok extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
                         .addComponent(jSpinner1))
-                    .addComponent(jToggleButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnFejlec, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,7 +205,7 @@ public class Vezerlok extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jToggleButton1)
+                            .addComponent(btnFejlec)
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -215,7 +240,7 @@ public class Vezerlok extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -233,6 +258,11 @@ public class Vezerlok extends javax.swing.JFrame {
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Dinamikus tartalom"));
 
         chbHozzaFuz.setText("hozzáfűz");
+        chbHozzaFuz.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                chbHozzaFuzStateChanged(evt);
+            }
+        });
 
         btnListbe.setText("combo tartalmát Listbe");
         btnListbe.addActionListener(new java.awt.event.ActionListener() {
@@ -242,7 +272,6 @@ public class Vezerlok extends javax.swing.JFrame {
         });
 
         buttonGroup3.add(rdbEleje);
-        rdbEleje.setSelected(true);
         rdbEleje.setText("elejére");
 
         buttonGroup3.add(rdbVege);
@@ -250,7 +279,11 @@ public class Vezerlok extends javax.swing.JFrame {
 
         jLabel3.setText("Új szak:");
 
-        txtujSzak.setText("jTextField1");
+        txtujSzak.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtujSzakKeyReleased(evt);
+            }
+        });
 
         btnComboba.setText("Felvesz");
         btnComboba.addActionListener(new java.awt.event.ActionListener() {
@@ -309,8 +342,13 @@ public class Vezerlok extends javax.swing.JFrame {
         jMenu1.add(jMenuItem2);
         jMenu1.add(jSeparator1);
 
-        jMenuItem3.setText("Kilépés");
-        jMenu1.add(jMenuItem3);
+        menuKilep.setText("Kilépés");
+        menuKilep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuKilepActionPerformed(evt);
+            }
+        });
+        jMenu1.add(menuKilep);
 
         jMenuBar1.add(jMenu1);
 
@@ -382,33 +420,113 @@ public class Vezerlok extends javax.swing.JFrame {
     }//GEN-LAST:event_btnJelszotMutatActionPerformed
 
     private void btnCombobaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCombobaActionPerformed
-        jComboBox1.addItem(txtujSzak.getText());
+        ujSzakFelvitele();
     }//GEN-LAST:event_btnCombobaActionPerformed
 
     private void btnListbeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListbeActionPerformed
-        if (jComboBox1.getSelectedIndex() > 0) {
-            DefaultListModel dlm = new DefaultListModel();
-            
-            ListModel<String> listModel = jList1.getModel();
-            
-            if (chbHozzaFuz.isSelected()) {
-                for (int i = 0; i < listModel.getSize(); i++) {
-                    dlm.addElement(listModel.getElementAt(i));
+        if (btnFejlec.isSelected()) {
+            if (jComboBox1.getSelectedIndex() > 0) {
+                DefaultListModel dlm = new DefaultListModel();
+
+                ListModel<String> listModel = jList1.getModel();
+
+                if (chbHozzaFuz.isSelected()) {
+                    for (int i = 0; i < listModel.getSize(); i++) {
+                        dlm.addElement(listModel.getElementAt(i));
+                    }
                 }
-            }
-            //kiválasztott Combo elem:
-            String szak = jComboBox1.getSelectedItem().toString();
-            if (rdbEleje.isSelected()) {
-                dlm.add(0, szak);
+                //kiválasztott Combo elem:
+                String szak = jComboBox1.getSelectedItem().toString();
+                if (rdbEleje.isSelected()) {
+                    dlm.add(0, szak);
+                } else {
+                    dlm.addElement(szak);
+                }
+
+                jList1.setModel(dlm);
             } else {
-                dlm.addElement(szak);
+                JOptionPane.showMessageDialog(this.rootPane, "Nincs szak kiválasztva!");
             }
-            
-            jList1.setModel(dlm);
         } else {
-            JOptionPane.showMessageDialog(this.rootPane, "Nincs szak kiválasztva!");
+            JOptionPane.showMessageDialog(this.rootPane, "Fejléc nincs engdélyezve!");
         }
     }//GEN-LAST:event_btnListbeActionPerformed
+
+    private void chbHozzaFuzStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_chbHozzaFuzStateChanged
+        if (chbHozzaFuz.isSelected()) {
+            rdbEleje.setEnabled(true);
+        } else {
+            rdbEleje.setEnabled(false);
+            rdbVege.setEnabled(true);
+        }
+    }//GEN-LAST:event_chbHozzaFuzStateChanged
+
+    private void txtujSzakKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtujSzakKeyReleased
+        if (!txtujSzak.getText().isEmpty()) {
+            btnComboba.setEnabled(true);
+            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                ujSzakFelvitele();
+                txtujSzak.setText("");
+            }
+        } else {
+            btnComboba.setEnabled(false);
+        }
+    }//GEN-LAST:event_txtujSzakKeyReleased
+
+    private void btnFejlecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFejlecActionPerformed
+        if (btnFejlec.isSelected()) {
+            btnFejlec.setText("Fejlécet enged");
+        } else {
+            btnFejlec.setText("Fejlécet nem enged");
+        }
+    }//GEN-LAST:event_btnFejlecActionPerformed
+
+    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+        txtJelszo.setText((String) jComboBox1.getSelectedItem());
+    }//GEN-LAST:event_jComboBox1ItemStateChanged
+
+    private void jTabbedPane1ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTabbedPane1ComponentShown
+        JRadioButton[] nemGombok = {rdbNo, rdbFerfi, rdbNemAdomMeg};
+        int i = 0;
+        while (i < nemGombok.length && !(nemGombok[i].isSelected())) {
+            i++;
+        }
+        if (i >= nemGombok.length) {
+            JOptionPane.showMessageDialog(this.rootPane, "Nincs nem kiválasztva!");
+
+            // vissza az elejére:
+            jTabbedPane1.setSelectedIndex(0);
+        } else {
+            String hirlevel = "Kér hírlevelet!";
+            if (!jCheckBox1.isSelected()) {
+                hirlevel = "Nem kér hírlevelet!";
+                jTextArea1.setText(hirlevel);
+            } else {
+                jTextArea1.setText(hirlevel);
+            }
+        }
+    }//GEN-LAST:event_jTabbedPane1ComponentShown
+
+    private void menuKilepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuKilepActionPerformed
+        Kilepes();
+    }//GEN-LAST:event_menuKilepActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        Kilepes();
+    }//GEN-LAST:event_formWindowClosing
+
+    public void Kilepes() {
+        ImageIcon icon = new ImageIcon(Vezerlok.class.getResource("kepek/earth.jpg"));
+        //JOptionPane.showMessageDialog(this.rootPane, "Biztosan kilépsz?", "Hello", JOptionPane.INFORMATION_MESSAGE, icon);
+        int gomb = JOptionPane.showConfirmDialog(rootPane, "Biztosan kilépsz?", "Kilépés", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, icon);
+        if (gomb == JOptionPane.OK_OPTION) {
+            System.exit(0);
+        }
+    }
+
+    public void ujSzakFelvitele() {
+        jComboBox1.addItem(txtujSzak.getText());
+    }
 
     /**
      * @param args the command line arguments
@@ -447,6 +565,7 @@ public class Vezerlok extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnComboba;
+    private javax.swing.JToggleButton btnFejlec;
     private javax.swing.JButton btnJelszotMutat;
     private javax.swing.JButton btnListbe;
     private javax.swing.ButtonGroup buttonGroup1;
@@ -467,16 +586,12 @@ public class Vezerlok extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -485,9 +600,12 @@ public class Vezerlok extends javax.swing.JFrame {
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JMenuItem menuKilep;
     private javax.swing.JPasswordField pswJelszo;
     private javax.swing.JRadioButton rdbEleje;
+    private javax.swing.JRadioButton rdbFerfi;
+    private javax.swing.JRadioButton rdbNemAdomMeg;
+    private javax.swing.JRadioButton rdbNo;
     private javax.swing.JRadioButton rdbVege;
     private javax.swing.JTextField txtJelszo;
     private javax.swing.JTextField txtujSzak;
